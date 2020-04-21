@@ -55,7 +55,7 @@ def index():
         username = session['username']
         return render_template("index.html",name=username)
     else:
-        return render_template("register.html")
+        return render_template("registration.html")
 
 @app.route("/admin")
 def admin():
