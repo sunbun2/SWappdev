@@ -1,16 +1,10 @@
 import os
-
-from flask import Flask, session
 from flask_session import Session
-from sqlalchemy import create_engine
-from sqlalchemy.orm import scoped_session, sessionmaker
-from flask import render_template,  request, session
-from flask_session import Session
+from flask import render_template,  request, session,Flask
 from books import *
 import csv
 
 app1 = Flask(__name__)
-
 
 # Configure session to use filesystem
 app1.config["SESSION_PERMANENT"] = False

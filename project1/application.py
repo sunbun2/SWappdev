@@ -50,6 +50,7 @@ db.create_all()
 # db = scoped_session(sessionmaker(bind=engine))
 
 @app.route("/")
+
 def index():
     if 'username' in session:
         username = session['username']
@@ -58,12 +59,14 @@ def index():
         return render_template("registration.html")
 
 @app.route("/admin")
+
 def admin():
     users = User.query.order_by("timestamp").all()
     return render_template("admin.html", users = users)
     
 
 @app.route("/registration", methods = ['GET','POST'])
+
 def register():
     if (request.method=="POST"):
         # data.query.all()
@@ -80,26 +83,32 @@ def register():
     return render_template("registration.html")
 
 @app.route("/auth", methods=['GET','POST'])
+
 def auth():
     if(request.method=="POST"):
         name = request.form.get("name")
         print(name)
         password = request.form.get("Password")
         print(password)
+
         obj = User.query.get(name)
+
         if obj is None:
             return render_template("registration.html",message="Username or Password is not correct")
+
         if (obj.username == name and obj.password == password):
             session['username'] = request.form.get("name")
             return render_template("login.html",name=name)
 
         if(obj.username != name or obj.password != password):
             return render_template("registration.html",message="Username or Password is not correct")
+
     return render_template("registration.html",message="Username or Password is not correct")
 
 
 
 @app.route("/logout")
+
 def logout():
     session.pop('username')
     return render_template("registration.html")
