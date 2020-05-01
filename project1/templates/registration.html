@@ -14,6 +14,67 @@
         }
         
       </style>
+          <script>
+            function funcValidate() {
+                console.log("entered")
+    
+                var username = document.querySelector('#email').value;
+                var passd = document.querySelector('#Password').value;
+                var errorMessage = "";
+    
+    
+                if (username.length === 0) {
+                    document.querySelector('#error').innerHTML = "Please enter an email...!!!";
+                    return false;
+                }
+    
+                if (passd.length === 0){
+                    document.querySelector('#error').innerHTML = "Please enter a password...!!!";
+                    return false;
+                }    
+                 
+                if ((/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/).test(username)) {
+    
+                } else {
+                    document.querySelector('#error').innerHTML = "Please enter a valid email as a username";
+                    return false;
+                }
+    
+    
+                if (document.querySelector('#Password').value.length < 6 ) {
+                    document.querySelector('#error').innerHTML = "Password should be atleast 6 characters.";
+                    return false;
+                }
+    
+                const pass = document.querySelector('#Password').value;
+    
+                if (!/[a-z]/.test(pass)) {
+                    errorMessage += "Password should contain atleast one lowercase alphabet." + "\n"; 
+                }
+    
+                if (!/[A-Z]/.test(pass)) {
+                    errorMessage += "Password should contain atleast one uppercase alphabet." + "\n"; 
+                }
+                    
+                if (!/[0-9]/.test(pass)) {
+                    errorMessage += "Password should contain atleast one number." + "\n"; 
+                }
+    
+                if (!/[!@#\$%\^\&*\)\(+=._-]/.test(pass)) {
+                    errorMessage += "Password should contain atleast one symbol." + "\n"; 
+                }
+    
+    
+                if (errorMessage === ""){
+                    return true;
+                }
+    
+                document.querySelector('#error').innerHTML = errorMessage;
+    
+                return false;
+    
+              }
+            </script>
   </head>
   <body style = "background-color:rgb(218, 141, 79)">
   <style>
@@ -28,24 +89,26 @@
   <h1>SignIn / SignUp</h1>
   <h3>  Please Enter the Credentials</h3>
   <br>
-  <form action="{{url_for('register')}}" method="POST">
+  <form  method="POST">
     <div class="input-group mb-3">
       <div class="input-group-prepend">
-        <span class="input-group-text" id="basic-addon1"><h4>USERNAME :</h4></span>
+      <label for="username" style="font-size: 18px; color: lightgray;">email *</label>
+      <span id="error_username" class="text-danger"></span>
       </div>
-      <input type="Username" class="form-control" name="name" placeholder="Username" aria-label="Username" aria-describedby="basic-addon1">
+      <input type="Username" class="form-control" name="name" placeholder="Email Id" aria-label="email" aria-describedby="basic-addon1" id = "email">
+
     </div>
     <br>
     <div class="input-group mb-3">
       <div class="input-group-prepend">
         <span class="input-group-text" id="basic-addon1"><h4>PASSWORD :</h4></span>
       </div>
-      <input type="Password" class="form-control" name="Password" placeholder="Password" aria-label="Password" aria-describedby="basic-addon1">
+      <input type="Password" class="form-control" name="Password" placeholder="Password" aria-label="Password" aria-describedby="basic-addon1" id = "Password">
     </div>
     <br>
     <br>
-     <button type="submit" class="btn btn-danger">Register</button>
-     <button type="submit" formaction="auth" class= "btn btn-danger" value="Login">Login</button>
+    <button type="submit" onclick = "return funcValidate()" class="btn btn-danger" formaction = "{{ url_for('register') }}" id = "submit" style="background-color: blue; border-color: blue;">Sign Up</button>
+    <button type="submit" formaction="{{ url_for('auth') }}" class= "btn btn-danger" value="Login">Login</button>
       {% if name %}
     <h2>Hello {{name}} successfully registered.</h2>
       {% endif %}
@@ -57,6 +120,7 @@
       {% endif %}
     <br>
     <br>
+    <h4 id = "error" style = "text-align:left;padding-left:230px;color:orange;"></h4>
   </body>
 </html>
 
